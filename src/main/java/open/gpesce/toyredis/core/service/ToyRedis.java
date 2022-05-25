@@ -1,13 +1,15 @@
-package open.gpesce.toyredis.core;
+package open.gpesce.toyredis.core.service;
+
+import open.gpesce.toyredis.core.model.ToyRedisKey;
+import open.gpesce.toyredis.core.model.ToyRedisValue;
 
 public interface ToyRedis<K extends ToyRedisKey, V extends ToyRedisValue> {
 
-    V SET(K key, V value);
     V SET(K key, V value, long ex);
     V GET(K key);
-    V DEL(K key);
-    V DBSIZE(K key);
-    V INC(K key);
+    void DEL(K key);
+    int DBSIZE();
+    V INCR(K key);
 
     V ZADD(K key, int score, String member);
     V ZCARD(K key);
