@@ -1,10 +1,10 @@
 package open.gpesce.toyredis.test;
 
-import open.gpesce.toyredis.api.dto.ToyRedisApiKey;
 import open.gpesce.toyredis.api.dto.ToyRedisApiRequest;
-import open.gpesce.toyredis.api.dto.ToyRedisApiValue;
 import open.gpesce.toyredis.core.model.ToyRedisKey;
+import open.gpesce.toyredis.core.model.ToyRedisKeyImpl;
 import open.gpesce.toyredis.core.model.ToyRedisValue;
+import open.gpesce.toyredis.core.model.ToyRedisValueImpl;
 import open.gpesce.toyredis.core.service.ToyRedis;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,45 +38,19 @@ class ToyRedisApiTest {
 	ConcurrentHashMap<ToyRedisKey, ToyRedisValue>  dataCollection;
 
 	@Test
-	void contextLoads() {
-		Assert.notNull(toyRedisApi, "context error");
-	}
-
-	@Test
-	public void testService() {
-		//GIVEN
-		var request = new ToyRedisApiRequest();
-		var key = new ToyRedisApiKey("UNO");
-		var item = new ArrayList<String>();
-		var value = new ToyRedisApiValue(item);
-		item.add("PIS");
-		item.add("CACA");
-		value.setValue(item);
-		request.setKey(key);
-		request.setValue(value);
-
-		//WHEN
-
-		//THAN
-		toyRedisApi.SET(request.getKey(), request.getValue(), -1);
-		var result = toyRedisApi.GET(request.getKey());
-		System.out.println(result);
-	}
-
-	@Test
 	public void testConcurrencyOnService() throws InterruptedException {
 
 		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(6);
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("UNO"), new ToyRedisApiValue(1), 3));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("UNO"), new ToyRedisApiValue(2), 3));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("TRES"), new ToyRedisApiValue(3), 3));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("CUATRO"), new ToyRedisApiValue(4), 3));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("CINCO"), new ToyRedisApiValue(5), 3));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("SEIS"), new ToyRedisApiValue(6), -1));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("SIETE"), new ToyRedisApiValue(7), -1));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("OCHO"), new ToyRedisApiValue(8), -1));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("NUEVE"), new ToyRedisApiValue(9), -1));
-		executor.execute(() -> toyRedisApi.SET(new ToyRedisApiKey("D10S"), new ToyRedisApiValue(10), -1));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("UNO", -1, null), new ToyRedisValueImpl(1), 3));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("UNO", -1, null), new ToyRedisValueImpl(2), 3));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("TRES", -1, null), new ToyRedisValueImpl(3), 3));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("CUATRO", -1, null), new ToyRedisValueImpl(4), 3));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("CINCO", -1, null), new ToyRedisValueImpl(5), 3));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("SEIS", -1, null), new ToyRedisValueImpl(6), -1));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("SIETE", -1, null), new ToyRedisValueImpl(7), -1));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("OCHO", -1, null), new ToyRedisValueImpl(8), -1));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("NUEVE", -1, null), new ToyRedisValueImpl(9), -1));
+		executor.execute(() -> toyRedisApi.SET(new ToyRedisKeyImpl("D10S", -1, null), new ToyRedisValueImpl(10), -1));
 
 		Thread.sleep(10000);
 		executor.shutdownNow();

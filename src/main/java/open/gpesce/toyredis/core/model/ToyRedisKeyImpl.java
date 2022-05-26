@@ -1,14 +1,22 @@
 package open.gpesce.toyredis.core.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 
 @Data
-public abstract class ToyRedisKeyWithTTL implements ToyRedisKey{
+@Builder
+@AllArgsConstructor
+public class ToyRedisKeyImpl implements ToyRedisKey{
+    private Object key;
+    @EqualsAndHashCode.Exclude
     private long ttl = -1;
+    @EqualsAndHashCode.Exclude
     private Instant creationInstant = Instant.now(Clock.system(ZoneId.of("Europe/Madrid")));
 
     @Override
@@ -20,4 +28,5 @@ public abstract class ToyRedisKeyWithTTL implements ToyRedisKey{
     public void setTtlExpiration(long ttl) {
         this.ttl = ttl;
     }
+
 }

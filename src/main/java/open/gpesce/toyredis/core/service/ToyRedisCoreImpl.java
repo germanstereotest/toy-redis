@@ -1,10 +1,10 @@
 package open.gpesce.toyredis.core.service;
 
 import lombok.AllArgsConstructor;
-import open.gpesce.toyredis.cli.model.ToyRedisCliValue;
 import open.gpesce.toyredis.core.data.ToyRedisCollection;
 import open.gpesce.toyredis.core.model.ToyRedisKey;
 import open.gpesce.toyredis.core.model.ToyRedisValue;
+import open.gpesce.toyredis.core.model.ToyRedisValueImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,7 @@ public class ToyRedisCoreImpl implements ToyRedis {
 
     @Override
     public ToyRedisValue INCR(ToyRedisKey key) {
-        ToyRedisCliValue element = (ToyRedisCliValue) repository.find(key);
+        ToyRedisValueImpl element = (ToyRedisValueImpl) repository.find(key);
         try {
             //FIXME: ver de que tipo es y demas List, Set, Hash
             var intValue = Integer.parseInt(element.getValue().toString());

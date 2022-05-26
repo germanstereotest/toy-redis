@@ -3,7 +3,7 @@ package open.gpesce.toyredis.core.expiration;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import open.gpesce.toyredis.core.model.ToyRedisKey;
-import open.gpesce.toyredis.core.model.ToyRedisKeyWithTTL;
+import open.gpesce.toyredis.core.model.ToyRedisKeyImpl;
 import open.gpesce.toyredis.core.model.ToyRedisValue;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class ExpirationProcessCron {
         dataCollection.entrySet().parallelStream()
             .filter(itemMap -> itemMap.getKey().getTtlExpiration() != -1)
             .forEach(itemMap -> {
-                var ttlKey = (ToyRedisKeyWithTTL) itemMap.getKey();
+                var ttlKey = (ToyRedisKeyImpl) itemMap.getKey();
                 if (Instant.now(Clock.system(ZoneId.of("Europe/Madrid")))
                         .isAfter( ttlKey.getCreationInstant().plus(ttlKey.getTtl(), ChronoUnit.SECONDS))  ) {
                     dataCollection.remove(itemMap.getKey());

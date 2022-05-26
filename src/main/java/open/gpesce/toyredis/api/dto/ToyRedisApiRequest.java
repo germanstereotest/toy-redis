@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ToyRedisApiRequest {
-    private ToyRedisApiKey key;
-    private ToyRedisApiValue value;
+    private Object key;
+    private Object value;
+    private long ttl;
 }
