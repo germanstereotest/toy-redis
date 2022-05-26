@@ -1,9 +1,11 @@
 package open.gpesce.toyredis.api.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import open.gpesce.toyredis.core.model.ToyRedisKey;
+import open.gpesce.toyredis.core.model.ToyRedisKeyWithTTL;
 
 @Data
-public class ToyRedisApiKey implements ToyRedisKey {
+@AllArgsConstructor
+public class ToyRedisApiKey extends ToyRedisKeyWithTTL {
     private String key;
 }

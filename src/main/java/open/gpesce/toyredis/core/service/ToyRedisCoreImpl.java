@@ -18,7 +18,7 @@ public class ToyRedisCoreImpl implements ToyRedis {
     @Override
 
     public ToyRedisValue SET(ToyRedisKey key, ToyRedisValue value, long ex) {
-        //FIXME: add expiration parameter
+        key.setTtlExpiration(ex);
         return repository.save(key, value);
     }
 
