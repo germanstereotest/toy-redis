@@ -19,20 +19,19 @@ public class ToyRedisCliImpl implements ToyRedis {
     private final ToyRedis<ToyRedisKey, ToyRedisValue> toyRedisCore;
 
     @Override
-    @ShellMethod(key = "SET", value = "add with optional expiration in seconds")
+    @ShellMethod(key = "SET", value = "add an element with optional expiration in seconds")
     public ToyRedisValue SET(ToyRedisKey key, ToyRedisValue value, @ShellOption(defaultValue = "-1") long ex) {
-        //FIXME: add expiration parameter
         return toyRedisCore.SET(key, value, ex);
     }
 
     @Override
-    @ShellMethod(key = "GET", value = "find by key")
+    @ShellMethod(key = "GET", value = "find an element by key")
     public ToyRedisValue GET(ToyRedisKey key) {
         return toyRedisCore.GET(key);
     }
 
     @Override
-    @ShellMethod(key = "DEL", value = "delete by key")
+    @ShellMethod(key = "DEL", value = "delete an element by key")
     public void DEL(ToyRedisKey key) {
         toyRedisCore.DEL(key);
     }
@@ -44,7 +43,7 @@ public class ToyRedisCliImpl implements ToyRedis {
     }
 
     @Override
-    @ShellMethod(key = "INCR", value = "delete by key")
+    @ShellMethod(key = "INCR", value = "increment a value (numeric) by key")
     public ToyRedisValue INCR(ToyRedisKey key) {
         return toyRedisCore.INCR(key);
     }

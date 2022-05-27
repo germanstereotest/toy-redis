@@ -5,6 +5,8 @@ import open.gpesce.toyredis.core.data.ToyRedisCollection;
 import open.gpesce.toyredis.core.model.ToyRedisKey;
 import open.gpesce.toyredis.core.model.ToyRedisValue;
 import open.gpesce.toyredis.core.model.ToyRedisValueImpl;
+import open.gpesce.toyredis.core.validator.KeyValidator;
+import open.gpesce.toyredis.core.validator.ValueValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +16,27 @@ import org.springframework.stereotype.Service;
 public class ToyRedisCoreImpl implements ToyRedis {
 
     private final ToyRedisCollection<ToyRedisKey, ToyRedisValue> repository;
+    private final KeyValidator keyValidator;
+    private final ValueValidator valueValidator;
 
     @Override
 
     public ToyRedisValue SET(ToyRedisKey key, ToyRedisValue value, long ex) {
+        keyValidator.accept(key);
+        valueValidator.accept(value);
         key.setTtlExpiration(ex);
         return repository.save(key, value);
     }
 
     @Override
     public ToyRedisValue GET(ToyRedisKey key) {
+        keyValidator.accept(key);
         return repository.find(key);
     }
 
     @Override
     public void DEL(ToyRedisKey key) {
+        keyValidator.accept(key);
         repository.delete(key);
     }
 
@@ -39,7 +47,11 @@ public class ToyRedisCoreImpl implements ToyRedis {
 
     @Override
     public ToyRedisValue INCR(ToyRedisKey key) {
+        keyValidator.accept(key);
         ToyRedisValueImpl element = (ToyRedisValueImpl) repository.find(key);
+        if (element == null) {
+            throw new IllegalArgumentException("Key " + key + " not found");
+        }
         try {
             //FIXME: ver de que tipo es y demas List, Set, Hash
             var intValue = Integer.parseInt(element.getValue().toString());

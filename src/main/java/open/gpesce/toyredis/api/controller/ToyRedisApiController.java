@@ -2,6 +2,7 @@ package open.gpesce.toyredis.api.controller;
 
 import lombok.AllArgsConstructor;
 import open.gpesce.toyredis.api.dto.ToyRedisApiRequest;
+import open.gpesce.toyredis.core.model.ToyRedisKey;
 import open.gpesce.toyredis.core.model.ToyRedisKeyImpl;
 import open.gpesce.toyredis.core.model.ToyRedisValue;
 import open.gpesce.toyredis.core.model.ToyRedisValueImpl;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ToyRedisApiController {
 
-    private final ToyRedis toyRedisApi;
+    private final ToyRedis<ToyRedisKey, ToyRedisValue> toyRedisApi;
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
